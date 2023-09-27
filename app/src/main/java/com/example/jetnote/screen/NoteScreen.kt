@@ -36,6 +36,7 @@ import com.example.jetnote.components.NoteButton
 import com.example.jetnote.components.NoteInputText
 import com.example.jetnote.data.NotesDataSources
 import com.example.jetnote.model.Note
+import com.example.jetnote.util.formateDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -95,12 +96,18 @@ fun NoteScreen(
 
             NoteButton(text = "Save", onClick = {
 
-                onAddNote(Note(title = title, description = description))
-
-                title = ""
-                description = ""
-
-                Toast.makeText(context, "Note Added", Toast.LENGTH_SHORT).show()
+                if (title.isNotEmpty() && description.isNotEmpty()) {
+                    onAddNote(Note(title = title, description = description))
+                    title = ""
+                    description = ""
+                    Toast.makeText(context, "Note Added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Note Filled is empty, Please Enter Note!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
             })
         }
@@ -143,7 +150,7 @@ fun NoteRow(
             Text(text = note.title, style = MaterialTheme.typography.titleMedium)
             Text(text = note.description, style = MaterialTheme.typography.titleSmall)
             Text(
-                text = note.entryData.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
+                text = formateDate(note.entryDate.time),
                 style = MaterialTheme.typography.titleSmall
             )
         }

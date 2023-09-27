@@ -6,12 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jetnote.screen.NoteScreen
 import com.example.jetnote.screen.NoteViewModel
 import com.example.jetnote.ui.theme.JetNoteTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,7 @@ class MainActivity : ComponentActivity() {
                 JetNoteTheme {
                     Surface {
                         val noteViewModel: NoteViewModel by viewModels()
+//                        val noteViewModel = viewModel<NoteViewModel>()
                         NoteApp(noteViewModel)
                     }
                 }
@@ -31,9 +35,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NoteApp(noteViewModel: NoteViewModel = viewModel()) {
+fun NoteApp(noteViewModel: NoteViewModel) {
 
-    val noteList = noteViewModel.getAllNotes()
+    val noteList = noteViewModel.noteList.collectAsState().value
 
     NoteScreen(notes = noteList,
         onAddNote = {
