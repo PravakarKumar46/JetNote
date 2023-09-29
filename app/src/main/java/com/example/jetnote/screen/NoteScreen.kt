@@ -37,7 +37,6 @@ import com.example.jetnote.components.NoteInputText
 import com.example.jetnote.data.NotesDataSources
 import com.example.jetnote.model.Note
 import com.example.jetnote.util.formateDate
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,11 +101,7 @@ fun NoteScreen(
                     description = ""
                     Toast.makeText(context, "Note Added", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(
-                        context,
-                        "Note Filled is empty, Please Enter Note!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Note Filled is empty, Please Enter Note!", Toast.LENGTH_SHORT).show()
                 }
 
             })
